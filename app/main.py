@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Servidor de IA Generativa - EAM",
@@ -6,7 +7,26 @@ app = FastAPI(
     version="0.1.0",
 )
 
-@app.get("/", tags=["Root"])
+# Configuración de CORS
+origins = [
+    "https://preview--creative-eam.lovable.app",
+    "https://creative-eam.lovable.app",
+    "https://*.lovable.app",
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:3000",
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/", tags=["Root"]) 
 def read_root():
     """
     Endpoint raíz para verificar que el servidor está en funcionamiento.
